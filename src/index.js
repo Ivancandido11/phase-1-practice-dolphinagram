@@ -9,11 +9,36 @@
         - Add a comment (no persistance needed)
 */
 
-const dolphinName = document.querySelector("body > div > div > h2")
-const dolphinImage = document.querySelector("body > div > div > img")
-const dolphinLikes = document.querySelector("body > div > div > div > span")
-const dolphinCommentsUl = document.querySelector("body > div > div > ul")
-const existingComments = document.querySelectorAll("body > div > div > ul > li")
+const dolphinName = document.querySelector("h2.name")
+const dolphinImage = document.querySelector("img.dolphin")
+const dolphinLikes = document.querySelector("span.likes")
+const dolphinCommentsUl = document.querySelector("ul.comments")
+const existingComments = document.querySelectorAll("ul.comments > li")
+const heart = document.querySelector("button.like-button")
+let likes
+
+const likeImage = () => {
+  heart.addEventListener("click", () => {
+    likes = likes + 1
+    console.log(likes)
+    const likeData = {
+      likes: likes
+    }
+    const configObject = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify(likeData)
+    }
+    fetch("http://localhost:3000/dolphins/1", configObject)
+      .then(res => res.json())
+      .then(obj => {
+        dolphinLikes.innerHTML = `${obj.likes} likes`
+      })
+  })
+}
 
 const addDolphinToTheDom = () => {
   fetch("http://localhost:3000/dolphins/1")
@@ -22,6 +47,8 @@ const addDolphinToTheDom = () => {
       dolphinName.innerHTML = dolphinObj.name
       dolphinImage.src = dolphinObj.image
       dolphinLikes.innerHTML = `${dolphinObj.likes} likes`
+      likes = dolphinObj.likes
+      likeImage()
       existingComments.forEach(comment => {
         dolphinCommentsUl.removeChild(comment)
       })
