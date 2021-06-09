@@ -1,13 +1,3 @@
-/*
-    Prelim steps
-    read readme
-    start server
-    take a look a files
-    pseudo code
-        Deliverables
-        - Add a comment (no persistance needed)
-*/
-
 const dolphinName = document.querySelector("h2.name")
 const dolphinImage = document.querySelector("img.dolphin")
 const dolphinLikes = document.querySelector("span.likes")
@@ -24,6 +14,7 @@ const leaveAComment = () => {
     const userCommentlist = document.createElement("li")
     userCommentlist.innerHTML = userComment
     dolphinCommentsUl.append(userCommentlist)
+    event.target.comment.value = ""
   })
 }
 
