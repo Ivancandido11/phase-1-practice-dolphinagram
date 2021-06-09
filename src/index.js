@@ -5,7 +5,6 @@
     take a look a files
     pseudo code
         Deliverables
-        - Click on the heart icon to increase the dolphin image's likes, and still see them when I reload the page
         - Add a comment (no persistance needed)
 */
 
@@ -16,6 +15,17 @@ const dolphinCommentsUl = document.querySelector("ul.comments")
 const existingComments = document.querySelectorAll("ul.comments > li")
 const heart = document.querySelector("button.like-button")
 let likes
+const commentForm = document.querySelector("form.comment-form")
+
+const leaveAComment = () => {
+  commentForm.addEventListener("submit", (event) => {
+    event.preventDefault()
+    const userComment = event.target.comment.value
+    const userCommentlist = document.createElement("li")
+    userCommentlist.innerHTML = userComment
+    dolphinCommentsUl.append(userCommentlist)
+  })
+}
 
 const likeImage = () => {
   heart.addEventListener("click", () => {
@@ -62,6 +72,7 @@ const addDolphinToTheDom = () => {
 
 const init = () => {
   addDolphinToTheDom()
+  leaveAComment()
 }
 
 document.addEventListener("DOMContentLoaded", init)
